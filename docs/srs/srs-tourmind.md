@@ -1,12 +1,13 @@
 # Software Requirements Specification
-## for TourMind – A Web-Based One-Day Visit Planning System for Matara, Sri Lanka
+## for 
+# TourMind – A Web-Based One-Day Visit Planning System
 
 **Version 1.0**
 
 | Field | Detail |
 |---|---|
-| Prepared by | E2320336 Ali MT, E2320161 Larusan W, E2320512 Rifna ARF |
-| Date | March 2026 |
+| Prepared by | W.E Gayashan |
+| Date | 04 March 2026 |
 
 ---
 
@@ -14,7 +15,7 @@
 
 | Name | Date | Reason for Changes | Version |
 |---|---|---|---|
-| Project Team | March 2026 | Initial draft | 1.0 |
+| W.E Gayashan | 04 March 2026 | Initial version | 1.0 |
 
 ---
 
