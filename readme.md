@@ -1,6 +1,6 @@
 # v1.0.0
 
-- [ ] Setup next.js project
+- [x] Setup next.js project
 - [ ] Deploy frontend to vercel
 - [ ] Setup FastAPI app
 - [ ] Deply FastAPI to vercel
