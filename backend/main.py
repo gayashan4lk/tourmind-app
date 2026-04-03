@@ -12,7 +12,7 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"status": "ok", "service": "tourmind-backend-api"}
 
 
 @app.get("/items/{item_id}")
