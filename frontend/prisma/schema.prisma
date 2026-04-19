@@ -12,7 +12,7 @@ datasource db {
   provider = "postgresql"
 }
 
-model Post {
+model TempTable {
   id      Int     @id @default(autoincrement())
   title   String
   content String?
