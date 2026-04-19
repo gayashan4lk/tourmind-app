@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+//////////////////////////////////////////////////////
+// ENUMS (optional alternative to category table)
+// Using table instead (better for extensibility)
+//////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////
+// MODELS
+//////////////////////////////////////////////////////
+
+model HostUser {
+  id           String @id @default(uuid())
+  username     String @unique
+  email        String @unique
+  passwordHash String
+
+  createdAt DateTime @default(now())
+
+  // future-proof relation (not strictly needed)
+  places Place[] @relation("HostPlaces")
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  places Place[]
+}
+
+model Place {
+  id String @id @default(uuid())
+
+  name       String
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  shortDescription String @db.Text
+  fullDescription  String @db.Text
+
+  openingHours String
+  entryFee     String? @default("Free")
+
+  distanceKm Decimal @db.Decimal(5, 2)
+
+  travelTips String? @db.Text
+  dressCode  String? @db.Text
+
+  latitude  Decimal @db.Decimal(9, 6)
+  longitude Decimal @db.Decimal(9, 6)
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Optional relation to host (future-proof)
+  hostId String?
+  host   HostUser? @relation("HostPlaces", fields: [hostId], references: [id])
+
+  // Images
+  images PlaceImage[]
+
+  @@index([categoryId])
+  @@index([isActive])
+}
+
+model PlaceImage {
+  id String @id @default(uuid())
+
+  placeId String
+  place   Place  @relation(fields: [placeId], references: [id], onDelete: Cascade)
+
+  imageUrl  String  @db.Text
+  isPrimary Boolean @default(false)
+
+  createdAt DateTime @default(now())
+}

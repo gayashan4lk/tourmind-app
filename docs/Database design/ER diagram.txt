@@ -1,0 +1,43 @@
++--------------+       +--------------+
+| host_users   |       | categories   |
++--------------+       +--------------+
+| id (PK)      |       | id (PK)      |
+| username     |       | name         |
+| email        |       +--------------+
+| password     |
++--------------+
+
+        |
+        | (manages)
+        v
+
++---------------------------+
+|         places            |
++---------------------------+
+| id (PK)                  |
+| name                     |
+| category_id (FK)         |
+| short_description        |
+| full_description         |
+| opening_hours            |
+| entry_fee                |
+| distance_km              |
+| travel_tips              |
+| dress_code               |
+| latitude                 |
+| longitude                |
+| is_active                |
++---------------------------+
+
+            |
+            | (optional)
+            v
+
++----------------------+
+|    place_images      |
++----------------------+
+| id (PK)             |
+| place_id (FK)       |
+| image_url           |
+| is_primary          |
++----------------------+
