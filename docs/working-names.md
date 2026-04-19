@@ -1,4 +1,4 @@
-**Trvely**
+**Travely**
 
 TravelMind
 
