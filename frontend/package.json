@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"postinstall": "prisma generate",
+		"vercel-build": "pnpm dlx prisma migrate deploy && pnpm build",
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
