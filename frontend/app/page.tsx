@@ -10,6 +10,7 @@ export default async function Home() {
 
   return (
     <div>
+      <h1 className="font-bold text-6xl">TourMind</h1>
       <h1 className="text-2xl font-bold">System healthcheck</h1>
       <p>Status: {data.status}</p>
       <p>Service: {data.service}</p>
