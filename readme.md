@@ -33,4 +33,4 @@ tips, distance, dress code)
 - [x] Setup FastAPI app
 - [x] Deply FastAPI to vercel
 - [x] Setup Prisma and Neon postgres
-- [ ] Setup better-auth
+- [x] Setup better-auth
