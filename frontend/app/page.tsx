@@ -3,13 +3,6 @@ import { headers } from 'next/headers'
 import Link from 'next/link'
 
 export default async function Home() {
-	const res = await fetch(`${process.env.API_BASE_URL}/`)
-	const data = await res.json()
-
-	if (!data) {
-		return <div>API call failed</div>
-	}
-
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	})
@@ -17,7 +10,7 @@ export default async function Home() {
 	if (!session) {
 		return (
 			<div>
-				<SystemHealthCheck data={data} />
+				<SystemHealthCheck />
 				<Link href="/signin" className="text-blue-500 hover:underline">
 					Login
 				</Link>
@@ -28,10 +21,18 @@ export default async function Home() {
 		)
 	}
 
-	return <SystemHealthCheck data={data} />
+	return <SystemHealthCheck />
 }
 
-function SystemHealthCheck(data: any) {
+async function SystemHealthCheck() {
+	const res = await fetch(`${process.env.API_BASE_URL}/`)
+	const data = await res.json()
+	console.log('System healthcheck data:', data)
+
+	if (!data) {
+		return <div>Backend is not responding ⛔️</div>
+	}
+
 	return (
 		<div>
 			<Link href="/" className="text-blue-500 hover:underline">
@@ -40,6 +41,7 @@ function SystemHealthCheck(data: any) {
 			<h1 className="text-2xl font-bold">System healthcheck</h1>
 			<p>Status: {data.status}</p>
 			<p>Service: {data.service}</p>
+			<p>Vercel URL: {process.env.VERCEL_URL}</p>
 		</div>
 	)
 }
