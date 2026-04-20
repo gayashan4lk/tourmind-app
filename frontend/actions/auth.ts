@@ -65,8 +65,8 @@ export async function signIn(prevState: any, formData: FormData) {
 			message: `Failed to login: ${error}`,
 		}
 	}
-	revalidatePath('/')
-	redirect('/')
+	revalidatePath('/dashboard')
+	redirect('/dashboard')
 
 	return {
 		success: true,
@@ -88,7 +88,7 @@ export async function signOut() {
 	}
 
 	revalidatePath('/')
-	redirect('/signin')
+	redirect('/')
 
 	return {
 		success: true,
