@@ -10,6 +10,13 @@ import {
 	FieldSet,
 } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select'
 import { SignUpActionResponse, SignUpInput } from '@/types/auth'
 import Link from 'next/link'
 import { useActionState } from 'react'
@@ -67,6 +74,19 @@ export default function Signup() {
 										{state.error?.fieldErrors.confirmPassword?.map((error) => (
 											<FieldError key={error}>{error}</FieldError>
 										))}
+									</Field>
+
+									<Field>
+										<FieldLabel htmlFor="role">I want to sign up as</FieldLabel>
+										<Select name="role" defaultValue="tourist">
+											<SelectTrigger id="role" className="w-full">
+												<SelectValue placeholder="Select a role" />
+											</SelectTrigger>
+											<SelectContent>
+												<SelectItem value="host">Host</SelectItem>
+												<SelectItem value="tourist">Tourist</SelectItem>
+											</SelectContent>
+										</Select>
 									</Field>
 
 									{state.message && (

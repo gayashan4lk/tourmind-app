@@ -1,11 +1,14 @@
 import { z } from 'zod'
 
+export const UserRoleSchema = z.enum(['host', 'tourist'])
+
 export const UserSchema = z.object({
 	id: z.string(),
 	name: z.string().min(1, 'Name is required'),
 	email: z.email('Invalid email address'),
 	emailVerified: z.boolean().default(false),
 	image: z.string().optional().nullable(),
+	role: UserRoleSchema.default('tourist'),
 	createdAt: z.date().optional(),
 	updatedAt: z.date().optional(),
 })

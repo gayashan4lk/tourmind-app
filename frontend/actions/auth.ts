@@ -24,6 +24,7 @@ export async function signUp(prevState: any, formData: FormData) {
 				name: result.data.name,
 				email: result.data.email,
 				password: result.data.password,
+				role: result.data.role,
 			},
 		})
 	} catch (error) {
