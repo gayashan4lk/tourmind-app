@@ -1,4 +1,5 @@
 import { auth } from '@/lib/auth'
+import { Divide } from 'lucide-react'
 import { headers } from 'next/headers'
 import Link from 'next/link'
 
@@ -21,13 +22,19 @@ export default async function Home() {
 		)
 	}
 
-	return <SystemHealthCheck />
+	return (
+		<div>
+			<SystemHealthCheck />
+			<Link href="/dashboard" className="text-blue-500 hover:underline">
+				Dashboard
+			</Link>
+		</div>
+	)
 }
 
 async function SystemHealthCheck() {
 	const res = await fetch(`${process.env.API_BASE_URL}/`)
 	const data = await res.json()
-	console.log('System healthcheck data:', data)
 
 	if (!data) {
 		return <div>Backend is not responding ⛔️</div>
