@@ -12,12 +12,6 @@ datasource db {
   provider = "postgresql"
 }
 
-model TempTable {
-  id      Int     @id @default(autoincrement())
-  title   String
-  content String?
-}
-
 enum UserRole {
   host
   tourist
