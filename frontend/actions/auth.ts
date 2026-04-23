@@ -66,8 +66,8 @@ export async function signIn(prevState: any, formData: FormData) {
 			message: `Failed to login: ${error}`,
 		}
 	}
-	revalidatePath('/dashboard')
-	redirect('/dashboard')
+	revalidatePath('/host')
+	redirect('/host')
 
 	return {
 		success: true,
