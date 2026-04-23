@@ -31,6 +31,8 @@ model User {
   categories    Category[]
   places        Place[]
 
+
+
   @@unique([email])
   @@map("user")
 }
@@ -90,7 +92,7 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
 
   @@unique([userId, name])
   @@index([userId])
@@ -109,10 +111,13 @@ model Place {
   isActive         Boolean   @default(true)
   images           Image[]
   categoryId       String?
-  category         Category? @relation(fields: [categoryId], references: [id])
+  category         Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   userId           String
-  user             User      @relation(fields: [userId], references: [id], onDelete: NoAction)
+  user             User      @relation(fields: [userId], references: [id], onDelete: Restrict)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
+  @@unique([userId, name])
   @@index([userId])
   @@index([categoryId])
   @@map("place")
@@ -121,10 +126,12 @@ model Place {
 model Image {
   id        String   @id @default(cuid())
   placeId   String
-  place     Place    @relation(fields: [placeId], references: [id], onDelete: NoAction)
+  place     Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
   url       String   @db.Text
   isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([placeId])
   @@map("image")
 }
