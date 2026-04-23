@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
 
 const categories = Array.from({ length: 8 }, (_, i) => ({
 	id: i,
@@ -13,6 +14,7 @@ export default function HostCategoriesPage() {
 			<section className="mx-auto w-full max-w-7xl px-8 pt-8">
 				<div className="flex justify-end">
 					<Button className="bg-brand-red hover:bg-brand-red/80 h-9 rounded-full px-6 text-base font-semibold text-white">
+						<Plus />
 						Create Category
 					</Button>
 				</div>
