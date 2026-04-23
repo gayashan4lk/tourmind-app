@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { auth } from '@/lib/auth'
 import { getCategoryVisual } from '@/lib/category-visual'
 import prisma from '@/lib/prisma'
-import { Plus } from 'lucide-react'
+import { Pencil, Plus } from 'lucide-react'
 import { headers } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -53,21 +53,26 @@ export default async function HostCategoriesPage() {
 								category.name,
 							)
 							return (
-								<li key={category.id} className="flex flex-col gap-3">
-									<div
-										className={`aspect-220/180 flex w-full items-center justify-center rounded-2xl ${bgClass}`}
+								<li key={category.id}>
+									<Link
+										href={`/host/categories/${category.id}/edit`}
+										className="flex items-center gap-4"
 									>
-										<Icon className={`size-16 ${fgClass}`} strokeWidth={1.5} />
-									</div>
-									<div className="text-sm leading-tight">
-										<p className="text-foreground font-medium">
-											{category.name}
-										</p>
-										<p className="text-neutral-400">
-											{category._count.places}{' '}
-											{category._count.places === 1 ? 'place' : 'places'}
-										</p>
-									</div>
+										<div
+											className={`flex size-16 shrink-0 items-center justify-center rounded-xl transition-opacity hover:opacity-90 ${bgClass}`}
+										>
+											<Icon className={`size-8 ${fgClass}`} strokeWidth={1.5} />
+										</div>
+										<div className="leading-tight">
+											<p className="text-foreground text-lg font-semibold">
+												{category.name}
+											</p>
+											<p className="text-sm text-neutral-400">
+												{category._count.places}{' '}
+												{category._count.places === 1 ? 'place' : 'places'}
+											</p>
+										</div>
+									</Link>
 								</li>
 							)
 						})}
