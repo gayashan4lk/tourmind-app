@@ -185,7 +185,7 @@ export default function CreatePlaceForm({
 								variant="outline"
 								className="h-9 rounded-full px-6 text-base font-semibold"
 							>
-								<Link href="/host">Cancel</Link>
+								<Link href="/host/places">Cancel</Link>
 							</Button>
 						</div>
 					</Field>

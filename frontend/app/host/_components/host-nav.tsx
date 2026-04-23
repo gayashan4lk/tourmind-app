@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const navItems = [
-	{ label: 'Places', href: '/host' },
+	{ label: 'Places', href: '/host/places' },
 	{ label: 'Categories', href: '/host/categories' },
 	{ label: 'Tags', href: '/host/tags' },
 ]
@@ -16,9 +16,7 @@ export function HostNav() {
 		<nav className="flex items-center gap-10">
 			{navItems.map((item) => {
 				const active =
-					item.href === '/host'
-						? pathname === '/host'
-						: pathname === item.href || pathname.startsWith(`${item.href}/`)
+					pathname === item.href || pathname.startsWith(`${item.href}/`)
 
 				return (
 					<Link

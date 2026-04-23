@@ -86,6 +86,6 @@ export async function createPlace(
 		return { success: false, message: 'Failed to create place' }
 	}
 
-	revalidatePath('/host')
-	redirect('/host')
+	revalidatePath('/host/places')
+	redirect('/host/places')
 }
