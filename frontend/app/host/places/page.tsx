@@ -44,12 +44,8 @@ export default async function HostPlacesPage() {
 			<section className="mx-auto w-full max-w-7xl px-8 py-10">
 				{places.length === 0 ? (
 					<div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
-						<p className="text-foreground text-lg font-medium">
-							No places yet
-						</p>
-						<p className="text-sm text-neutral-500">
-							Create your first place.
-						</p>
+						<p className="text-foreground text-lg font-medium">No places yet</p>
+						<p className="text-sm text-neutral-500">Create your first place.</p>
 					</div>
 				) : (
 					<ul className="grid grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -62,9 +58,10 @@ export default async function HostPlacesPage() {
 									<div className="aspect-220/180 w-full rounded-2xl bg-neutral-200" />
 									<div className="text-sm leading-tight">
 										<p className="text-foreground font-medium">{place.name}</p>
-										<p className="text-neutral-400">{place.shortDescription}</p>
-										<p className="text-neutral-400">{place.openingHours}</p>
-										<p className="text-neutral-400">{place.entryFee}</p>
+										<p className="text-neutral-400">
+											Open: {place.openingHours}
+										</p>
+										<p className="text-neutral-400">Entry: {place.entryFee}</p>
 									</div>
 								</Link>
 							</li>
