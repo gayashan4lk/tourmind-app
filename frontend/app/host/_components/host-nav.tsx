@@ -26,7 +26,7 @@ export function HostNav() {
 						href={item.href}
 						className={
 							active
-								? 'text-brand-red decoration-brand-red text-base font-semibold underline decoration-3 underline-offset-4'
+								? 'text-brand-red hover:decoration-brand-red text-base font-semibold hover:underline hover:decoration-3 hover:underline-offset-4'
 								: 'hover:text-brand-red hover:decoration-brand-red text-base font-semibold text-neutral-700 hover:underline hover:decoration-3 hover:underline-offset-4'
 						}
 					>
