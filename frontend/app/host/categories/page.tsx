@@ -56,10 +56,10 @@ export default async function HostCategoriesPage() {
 								<li key={category.id}>
 									<Link
 										href={`/host/categories/${category.id}/edit`}
-										className="flex items-center gap-4"
+										className="-mx-2 flex items-center gap-4 rounded-xl px-2 py-2 transition-colors hover:bg-neutral-100"
 									>
 										<div
-											className={`flex size-16 shrink-0 items-center justify-center rounded-xl transition-opacity hover:opacity-90 ${bgClass}`}
+											className={`flex size-16 shrink-0 items-center justify-center rounded-xl ${bgClass}`}
 										>
 											<Icon className={`size-8 ${fgClass}`} strokeWidth={1.5} />
 										</div>
