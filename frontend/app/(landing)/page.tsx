@@ -14,10 +14,10 @@ export default function LandingPage() {
 	return (
 		<div className="flex flex-col">
 			<section className="relative bg-[#d9d9d9] pt-7 pb-20">
-				<div className="mx-auto flex w-full max-w-[1280px] items-center justify-between px-8">
+				<div className="mx-auto flex w-full max-w-7xl items-center justify-between px-8">
 					<Link
 						href="/"
-						className="text-3xl font-black tracking-tight text-[#e00b41]"
+						className="text-brand-red text-3xl font-black tracking-tight"
 					>
 						TourMind
 					</Link>
@@ -37,7 +37,7 @@ export default function LandingPage() {
 					</div>
 				</div>
 
-				<div className="mx-auto mt-16 flex w-full max-w-[784px] items-center rounded-full bg-white px-2 shadow-sm">
+				<div className="mx-auto mt-16 flex w-full max-w-196 items-center rounded-full bg-white px-2 shadow-sm">
 					<input
 						type="search"
 						placeholder="Search places in Matara"
@@ -58,18 +58,18 @@ export default function LandingPage() {
 					<Button
 						size="icon"
 						aria-label="Search"
-						className="size-11 rounded-full bg-[#e00b41] text-white hover:bg-[#e00b41]/90"
+						className="bg-brand-red hover:bg-brand-red/90 size-11 rounded-full text-white"
 					>
 						<Search className="size-5" />
 					</Button>
 				</div>
 			</section>
 
-			<section className="mx-auto w-full max-w-[1280px] px-8 py-10">
+			<section className="mx-auto w-full max-w-7xl px-8 py-10">
 				<ul className="grid grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
 					{listings.map((item) => (
 						<li key={item.id} className="flex flex-col gap-3">
-							<div className="aspect-[220/180] w-full rounded-2xl bg-[#d9d9d9]" />
+							<div className="aspect-220/180 w-full rounded-2xl bg-[#d9d9d9]" />
 							<div className="text-sm leading-tight">
 								<p className="text-foreground font-medium">{item.title}</p>
 								<p className="text-[#9e9e9e]">{item.subtitle}</p>

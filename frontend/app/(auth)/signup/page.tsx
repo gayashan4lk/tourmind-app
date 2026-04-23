@@ -98,7 +98,11 @@ export default function Signup() {
 									)}
 
 									<Field>
-										<Button type="submit" disabled={isPending}>
+										<Button
+											className="hover:bg-brand-red"
+											type="submit"
+											disabled={isPending}
+										>
 											Register
 										</Button>
 									</Field>
