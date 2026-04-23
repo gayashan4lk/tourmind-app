@@ -24,13 +24,13 @@ export default function LandingPage() {
 					<div className="flex items-center gap-3">
 						<Button
 							asChild
-							className="h-8 rounded-full bg-neutral-700 px-5 text-xs text-white hover:bg-neutral-700/90"
+							className="hover:bg-brand-red h-8 rounded-full px-5 text-white"
 						>
 							<Link href="/signin">Log in</Link>
 						</Button>
 						<Button
 							asChild
-							className="h-8 rounded-full bg-[#e00b41] px-5 text-xs text-white hover:bg-[#e00b41]/90"
+							className="hover:bg-brand-red/80 h-8 rounded-full px-5 text-white"
 						>
 							<Link href="/signup">Sign up</Link>
 						</Button>
@@ -43,22 +43,22 @@ export default function LandingPage() {
 						placeholder="Search places in Matara"
 						className="h-14 flex-1 rounded-full bg-transparent px-6 text-lg placeholder:text-[#b3b3b3] focus:outline-none"
 					/>
-					<Separator orientation="vertical" className="h-10" />
+					<Separator orientation="vertical" className="bg-border my-2 border" />
 					<input
-						type="text"
+						type="search"
 						placeholder="Category"
 						className="h-14 w-44 bg-transparent px-6 text-lg placeholder:text-[#b3b3b3] focus:outline-none"
 					/>
-					<Separator orientation="vertical" className="h-10" />
+					<Separator orientation="vertical" className="bg-border my-2 border" />
 					<input
-						type="text"
+						type="search"
 						placeholder="Tag"
 						className="h-14 w-44 bg-transparent px-6 text-lg placeholder:text-[#b3b3b3] focus:outline-none"
 					/>
 					<Button
 						size="icon"
 						aria-label="Search"
-						className="bg-brand-red hover:bg-brand-red/90 size-11 rounded-full text-white"
+						className="bg-brand-red hover:bg-brand-red/80 size-11 rounded-full text-white"
 					>
 						<Search className="size-5" />
 					</Button>
@@ -69,11 +69,11 @@ export default function LandingPage() {
 				<ul className="grid grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
 					{listings.map((item) => (
 						<li key={item.id} className="flex flex-col gap-3">
-							<div className="aspect-220/180 w-full rounded-2xl bg-[#d9d9d9]" />
+							<div className="aspect-220/180 w-full rounded-2xl bg-neutral-200" />
 							<div className="text-sm leading-tight">
 								<p className="text-foreground font-medium">{item.title}</p>
-								<p className="text-[#9e9e9e]">{item.subtitle}</p>
-								<p className="text-[#9e9e9e]">{item.meta}</p>
+								<p className="text-neutral-400">{item.subtitle}</p>
+								<p className="text-neutral-400">{item.meta}</p>
 							</div>
 						</li>
 					))}

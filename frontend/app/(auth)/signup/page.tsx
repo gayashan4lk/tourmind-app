@@ -33,7 +33,7 @@ export default function Signup() {
 		<div>
 			<main>
 				<div className="@container">
-					<div className="mx-auto @sm:w-sm">
+					<div className="mx-auto my-4 @sm:w-sm">
 						<form action={action}>
 							<FieldSet>
 								<FieldGroup>
