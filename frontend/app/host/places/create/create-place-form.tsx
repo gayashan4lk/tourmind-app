@@ -1,9 +1,11 @@
 'use client'
 
 import { createPlace } from '@/actions/place'
+import { getPlaceImageUploadUrl, savePlaceImage } from '@/actions/image'
 import { Button } from '@/components/ui/button'
 import {
 	Field,
+	FieldDescription,
 	FieldError,
 	FieldGroup,
 	FieldLabel,
@@ -21,12 +23,16 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { CreatePlaceActionResponse } from '@/types/place'
 import Link from 'next/link'
-import { useActionState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useActionState, useEffect, useRef, useState } from 'react'
 
 const initialState: CreatePlaceActionResponse = {
 	success: false,
 	message: '',
 }
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024
+const ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/webp']
 
 type CategoryOption = { id: string; name: string }
 
@@ -35,7 +41,85 @@ export default function CreatePlaceForm({
 }: {
 	categories: CategoryOption[]
 }) {
+	const router = useRouter()
 	const [state, action, isPending] = useActionState(createPlace, initialState)
+	const [file, setFile] = useState<File | null>(null)
+	const [fileError, setFileError] = useState<string | null>(null)
+	const [isUploading, setIsUploading] = useState(false)
+	const [uploadError, setUploadError] = useState<string | null>(null)
+	const handledPlaceId = useRef<string | null>(null)
+
+	function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
+		setFileError(null)
+		const selected = e.target.files?.[0] ?? null
+		if (!selected) {
+			setFile(null)
+			return
+		}
+		if (!ALLOWED_MIME.includes(selected.type)) {
+			setFileError('Only JPEG, PNG, or WebP allowed')
+			setFile(null)
+			return
+		}
+		if (selected.size > MAX_FILE_SIZE) {
+			setFileError('File must be under 5 MB')
+			setFile(null)
+			return
+		}
+		setFile(selected)
+	}
+
+	useEffect(() => {
+		if (!state.success || !state.placeId) return
+		if (handledPlaceId.current === state.placeId) return
+		handledPlaceId.current = state.placeId
+		const placeId = state.placeId
+
+		async function finish() {
+			if (!file) {
+				router.push(`/host/places/${placeId}`)
+				return
+			}
+			setIsUploading(true)
+			setUploadError(null)
+			try {
+				const urlResp = await getPlaceImageUploadUrl(
+					placeId,
+					file.type,
+					file.size,
+				)
+				if (!urlResp.success) {
+					setUploadError(urlResp.message)
+					return
+				}
+				const putRes = await fetch(urlResp.uploadUrl, {
+					method: 'PUT',
+					body: file,
+					headers: { 'Content-Type': file.type },
+				})
+				if (!putRes.ok) {
+					setUploadError(
+						'Upload to S3 failed — place was created without an image',
+					)
+					return
+				}
+				const saveRes = await savePlaceImage(placeId, urlResp.publicUrl)
+				if (!saveRes.success) {
+					setUploadError(saveRes.message)
+					return
+				}
+				router.push(`/host/places/${placeId}`)
+			} catch (err) {
+				console.error(err)
+				setUploadError('Something went wrong during upload')
+			} finally {
+				setIsUploading(false)
+			}
+		}
+		finish()
+	}, [state.success, state.placeId, file, router])
+
+	const busy = isPending || isUploading
 
 	return (
 		<form action={action}>
@@ -167,18 +251,39 @@ export default function CreatePlaceForm({
 						))}
 					</Field>
 
+					<Field>
+						<FieldLabel htmlFor="coverImage">Cover image</FieldLabel>
+						<Input
+							id="coverImage"
+							type="file"
+							accept={ALLOWED_MIME.join(',')}
+							onChange={handleFileSelect}
+							disabled={busy}
+							className="cursor-pointer"
+						/>
+						<FieldDescription>
+							Optional. JPEG, PNG, or WebP. Max 5 MB.
+						</FieldDescription>
+						{fileError && <FieldError>{fileError}</FieldError>}
+					</Field>
+
 					{state.message && !state.success && (
 						<p className="text-sm text-red-500">{state.message}</p>
 					)}
+					{uploadError && <p className="text-sm text-red-500">{uploadError}</p>}
 
 					<Field>
 						<div className="flex items-center gap-3">
 							<Button
 								type="submit"
-								disabled={isPending}
+								disabled={busy}
 								className="bg-brand-red hover:bg-brand-red/80 h-9 rounded-full px-6 text-base font-semibold text-white"
 							>
-								{isPending ? 'Creating...' : 'Create'}
+								{isPending
+									? 'Creating...'
+									: isUploading
+										? 'Uploading image...'
+										: 'Create'}
 							</Button>
 							<Button
 								asChild

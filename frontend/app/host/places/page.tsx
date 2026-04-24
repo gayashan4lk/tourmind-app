@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 import { Plus } from 'lucide-react'
 import { headers } from 'next/headers'
+import Image from 'next/image'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
@@ -22,6 +23,11 @@ export default async function HostPlacesPage() {
 			shortDescription: true,
 			openingHours: true,
 			entryFee: true,
+			images: {
+				where: { isPrimary: true },
+				take: 1,
+				select: { url: true },
+			},
 		},
 	})
 
@@ -55,7 +61,17 @@ export default async function HostPlacesPage() {
 									href={`/host/places/${place.id}`}
 									className="flex flex-col gap-3"
 								>
-									<div className="aspect-220/180 w-full rounded-2xl bg-neutral-200" />
+									<div className="relative aspect-220/180 w-full overflow-hidden rounded-2xl bg-neutral-200">
+										{place.images[0]?.url && (
+											<Image
+												src={place.images[0].url}
+												alt={place.name}
+												fill
+												sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+												className="object-cover"
+											/>
+										)}
+									</div>
 									<div className="text-sm leading-tight">
 										<p className="text-foreground font-medium">{place.name}</p>
 										<p className="text-neutral-400">

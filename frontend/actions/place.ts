@@ -8,7 +8,6 @@ import {
 } from '@/types/place'
 import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
-import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
 export async function createPlace(
@@ -52,8 +51,9 @@ export async function createPlace(
 		}
 	}
 
+	let placeId: string
 	try {
-		await prisma.place.create({
+		const created = await prisma.place.create({
 			data: {
 				name: data.name,
 				shortDescription: data.shortDescription,
@@ -65,7 +65,9 @@ export async function createPlace(
 				categoryId: data.categoryId ?? null,
 				userId: session.user.id,
 			},
+			select: { id: true },
 		})
+		placeId = created.id
 	} catch (error: unknown) {
 		if (
 			typeof error === 'object' &&
@@ -87,5 +89,5 @@ export async function createPlace(
 	}
 
 	revalidatePath('/host/places')
-	redirect('/host/places')
+	return { success: true, message: 'Place created', placeId }
 }
