@@ -18,16 +18,20 @@ enum UserRole {
 }
 
 model User {
-  id            String    @id
+  id            String     @id
   name          String
   email         String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean    @default(false)
   image         String?
-  role          UserRole  @default(tourist)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  role          UserRole   @default(tourist)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   sessions      Session[]
   accounts      Account[]
+  categories    Category[]
+  places        Place[]
+
+
 
   @@unique([email])
   @@map("user")
@@ -79,4 +83,55 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String
+  places    Place[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@map("category")
+}
+
+model Place {
+  id               String    @id @default(cuid())
+  name             String
+  shortDescription String    @db.Text
+  fullDescription  String    @db.Text
+  openingHours     String
+  entryFee         String
+  travelTips       String?   @db.Text
+  dressCode        String?   @db.Text
+  isActive         Boolean   @default(true)
+  images           Image[]
+  categoryId       String?
+  category         Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  userId           String
+  user             User      @relation(fields: [userId], references: [id], onDelete: Restrict)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@index([categoryId])
+  @@map("place")
+}
+
+model Image {
+  id        String   @id @default(cuid())
+  placeId   String
+  place     Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  url       String   @db.Text
+  isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([placeId])
+  @@map("image")
 }
