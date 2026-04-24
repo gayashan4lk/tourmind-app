@@ -1,3 +1,4 @@
+import DeletePlaceButton from '@/components/delete-place-button'
 import { Button } from '@/components/ui/button'
 import { auth } from '@/lib/auth'
 import prisma from '@/lib/prisma'
@@ -56,7 +57,12 @@ export default async function HostPlacesPage() {
 				) : (
 					<ul className="grid grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
 						{places.map((place) => (
-							<li key={place.id}>
+							<li key={place.id} className="group relative">
+								<DeletePlaceButton
+									placeId={place.id}
+									placeName={place.name}
+									variant="icon"
+								/>
 								<Link
 									href={`/host/places/${place.id}`}
 									className="flex flex-col gap-3"

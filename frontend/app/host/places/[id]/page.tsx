@@ -1,3 +1,4 @@
+import DeletePlaceButton from '@/components/delete-place-button'
 import PlaceImageUpload from '@/components/place-image-upload'
 import { Button } from '@/components/ui/button'
 import { auth } from '@/lib/auth'
@@ -54,13 +55,20 @@ export default async function HostPlaceDetailPage({
 						<p className="text-sm text-neutral-500">{place.category.name}</p>
 					)}
 				</div>
-				<Button
-					asChild
-					variant="outline"
-					className="h-9 rounded-full px-6 text-base font-semibold"
-				>
-					<Link href="/host/places">Back</Link>
-				</Button>
+				<div className="flex items-center gap-3">
+					<Button
+						asChild
+						variant="outline"
+						className="h-9 rounded-full px-6 text-base font-semibold"
+					>
+						<Link href="/host/places">Back</Link>
+					</Button>
+					<DeletePlaceButton
+						placeId={place.id}
+						placeName={place.name}
+						redirectAfter
+					/>
+				</div>
 			</div>
 
 			<div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
