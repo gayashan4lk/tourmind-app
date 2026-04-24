@@ -2,14 +2,18 @@
 
 import { auth } from '@/lib/auth'
 import prisma from '@/lib/prisma'
+import { deleteS3Prefix } from '@/lib/s3'
 import {
 	CreatePlaceActionResponse,
 	CreatePlaceSchema,
 } from '@/types/place'
 import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
-import { redirect } from 'next/navigation'
 import { z } from 'zod'
+
+export type DeletePlaceResponse =
+	| { success: true }
+	| { success: false; message: string }
 
 export async function createPlace(
 	_prevState: CreatePlaceActionResponse,
@@ -52,8 +56,9 @@ export async function createPlace(
 		}
 	}
 
+	let placeId: string
 	try {
-		await prisma.place.create({
+		const created = await prisma.place.create({
 			data: {
 				name: data.name,
 				shortDescription: data.shortDescription,
@@ -65,7 +70,9 @@ export async function createPlace(
 				categoryId: data.categoryId ?? null,
 				userId: session.user.id,
 			},
+			select: { id: true },
 		})
+		placeId = created.id
 	} catch (error: unknown) {
 		if (
 			typeof error === 'object' &&
@@ -87,5 +94,46 @@ export async function createPlace(
 	}
 
 	revalidatePath('/host/places')
-	redirect('/host/places')
+	return { success: true, message: 'Place created', placeId }
+}
+
+export async function deletePlace(
+	placeId: string,
+): Promise<DeletePlaceResponse> {
+	const session = await auth.api.getSession({ headers: await headers() })
+
+	if (!session || session.user.role !== 'host') {
+		return { success: false, message: 'Not authorized' }
+	}
+
+	const place = await prisma.place.findUnique({
+		where: { id: placeId },
+		select: { id: true, userId: true },
+	})
+
+	if (!place || place.userId !== session.user.id) {
+		return { success: false, message: 'Not authorized' }
+	}
+
+	try {
+		await prisma.place.delete({ where: { id: placeId } })
+	} catch (error: unknown) {
+		const code =
+			typeof error === 'object' && error !== null && 'code' in error
+				? (error as { code: string }).code
+				: null
+		if (code !== 'P2025') {
+			console.error('Failed to delete place', error)
+			return { success: false, message: 'Failed to delete place' }
+		}
+	}
+
+	try {
+		await deleteS3Prefix(`places/${placeId}/`)
+	} catch (err) {
+		console.error('Failed to clean up S3 objects for place', placeId, err)
+	}
+
+	revalidatePath('/host/places')
+	return { success: true }
 }

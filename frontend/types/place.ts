@@ -41,6 +41,7 @@ export type CreatePlaceInput = z.infer<typeof CreatePlaceSchema>
 export type CreatePlaceActionResponse = {
 	success: boolean
 	message: string
+	placeId?: string
 	error?: {
 		formErrors: string[]
 		fieldErrors: {
