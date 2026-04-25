@@ -1,50 +1,49 @@
-import Link from 'next/link'
-import { auth } from '@/lib/auth'
-import { headers } from 'next/headers'
-import { forbidden, redirect } from 'next/navigation'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { signOut } from '@/actions/auth'
-import { HostNav } from '@/app/host/_components/host-nav'
-import UserAvatar from '@/app/host/_components/user-avatar'
+import { headers } from "next/headers";
+import Link from "next/link";
+import { forbidden } from "next/navigation";
+import UserAvatar from "@/app/host/_components/user-avatar";
+import { TouristNav } from "@/app/tour/_components/tourist-nav";
+import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/auth";
 
 export default async function TourLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode
+  children: React.ReactNode;
 }) {
-	const session = await auth.api.getSession({ headers: await headers() })
+  const session = await auth.api.getSession({ headers: await headers() });
 
-	if (!session || session.user.role !== 'tourist') {
-		forbidden()
-	}
+  if (!session || session.user.role !== "tourist") {
+    forbidden();
+  }
 
-	const { user, session: userSession } = session
+  const { user } = session;
 
-	return (
-		<div className="flex flex-col">
-			<header className="bg-[#d9d9d9]">
-				<div className="mx-auto flex h-25 w-full max-w-7xl items-center justify-between px-8">
-					<div className="flex items-center gap-14">
-						<Link
-							href="/host"
-							className="text-brand-red text-3xl font-black tracking-tight"
-						>
-							TourMind
-						</Link>
-						<HostNav />
-					</div>
-					<UserAvatar user={user} />
-				</div>
-			</header>
-			{children}
-		</div>
-	)
+  return (
+    <div className="flex flex-col">
+      <header className="bg-[#d9d9d9]">
+        <div className="mx-auto flex h-25 w-full max-w-7xl items-center justify-between px-8">
+          <div className="flex items-center gap-14">
+            <Link
+              href="/tour"
+              className="text-brand-red text-3xl font-black tracking-tight"
+            >
+              TourMind
+            </Link>
+            <TouristNav />
+          </div>
+          <div className="flex items-center gap-4">
+            <Button
+              asChild
+              className="bg-brand-red hover:bg-brand-red/80 h-10 rounded-full px-6 text-base font-semibold text-white"
+            >
+              <Link href="/tour/create">Create tour</Link>
+            </Button>
+            <UserAvatar user={user} />
+          </div>
+        </div>
+      </header>
+      {children}
+    </div>
+  );
 }
