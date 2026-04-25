@@ -3,13 +3,14 @@ import { Button } from '@/components/ui/button'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 export default async function Dashboard() {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	})
 
-	if (!session) {
+	if (!session || !session.user) {
 		return (
 			<div>
 				<p>Not authorized.</p>
@@ -23,11 +24,13 @@ export default async function Dashboard() {
 		)
 	}
 
-	// User role is not host. Render tourist dashboard
-	if (session.user.role != 'host') {
+	if (session.user.role === 'host') {
+		redirect('/host/places')
+	} else if (session.user.role === 'tourist') {
+		redirect('/tour')
+	} else {
 		return (
 			<div>
-				<h1 className="text-6xl font-bold">Tourist Dashboard</h1>
 				<p>Welcome, {session.user.name || session.user.email || 'User'}!</p>
 				<p>Your role is {session.user.role}</p>
 				<p>Welcome to the dashboard!</p>
@@ -35,15 +38,4 @@ export default async function Dashboard() {
 			</div>
 		)
 	}
-
-	// User role is host. Render host dashboard
-	return (
-		<div>
-			<h1 className="text-6xl font-bold">Host Dashboard</h1>
-			<p>Welcome, {session.user.name || session.user.email || 'User'}!</p>
-			<p>Your role is {session.user.role}</p>
-			<p>Welcome to the dashboard!</p>
-			<Button onClick={signOut}>Logout</Button>
-		</div>
-	)
 }

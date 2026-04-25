@@ -26,8 +26,6 @@ export default async function HostLayout({
 		redirect('/signin')
 	}
 
-	console.log('Host session:', session)
-
 	const { user, session: userSession } = session
 
 	return (
