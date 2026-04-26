@@ -34,7 +34,24 @@ export const CreatePlaceSchema = z.object({
 		.string()
 		.optional()
 		.or(z.literal('').transform(() => undefined)),
-})
+	latitude: z
+		.union([z.literal(''), z.coerce.number().min(-90).max(90)])
+		.optional()
+		.transform((v) => (v === '' || v === undefined ? undefined : v)),
+	longitude: z
+		.union([z.literal(''), z.coerce.number().min(-180).max(180)])
+		.optional()
+		.transform((v) => (v === '' || v === undefined ? undefined : v)),
+	address: optionalString(300, 'Address'),
+}).refine(
+	(d) =>
+		(d.latitude === undefined && d.longitude === undefined) ||
+		(d.latitude !== undefined && d.longitude !== undefined),
+	{
+		message: 'Latitude and longitude must be set together',
+		path: ['latitude'],
+	},
+)
 
 export type CreatePlaceInput = z.infer<typeof CreatePlaceSchema>
 

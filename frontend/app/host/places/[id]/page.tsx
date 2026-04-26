@@ -30,6 +30,9 @@ export default async function HostPlaceDetailPage({
 			entryFee: true,
 			travelTips: true,
 			dressCode: true,
+			latitude: true,
+			longitude: true,
+			address: true,
 			userId: true,
 			category: { select: { name: true } },
 			images: {
@@ -45,6 +48,12 @@ export default async function HostPlaceDetailPage({
 	}
 
 	const primary = place.images[0] ?? null
+	const hasLocation = place.latitude != null && place.longitude != null
+	const mapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+	const staticMapUrl =
+		hasLocation && mapsApiKey
+			? `https://maps.googleapis.com/maps/api/staticmap?center=${place.latitude},${place.longitude}&zoom=14&size=600x300&scale=2&markers=color:red%7C${place.latitude},${place.longitude}&key=${mapsApiKey}`
+			: null
 
 	return (
 		<section className="mx-auto w-full max-w-5xl px-8 py-10">
@@ -114,6 +123,31 @@ export default async function HostPlaceDetailPage({
 							<p className="whitespace-pre-wrap text-neutral-600">
 								{place.dressCode}
 							</p>
+						</div>
+					)}
+					{hasLocation && (
+						<div>
+							<p className="font-medium">Location</p>
+							{place.address && (
+								<p className="text-neutral-600">{place.address}</p>
+							)}
+							{staticMapUrl && (
+								<a
+									href={`https://www.google.com/maps/search/?api=1&query=${place.latitude},${place.longitude}`}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="mt-2 block overflow-hidden rounded-md border"
+								>
+									{/* eslint-disable-next-line @next/next/no-img-element */}
+									<img
+										src={staticMapUrl}
+										alt={`Map showing ${place.name}`}
+										width={600}
+										height={300}
+										className="h-auto w-full"
+									/>
+								</a>
+							)}
 						</div>
 					)}
 				</div>
