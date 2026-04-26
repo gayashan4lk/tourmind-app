@@ -26,8 +26,8 @@ export default function LocationPicker() {
 	if (!apiKey) {
 		return (
 			<p className="text-sm text-red-500">
-				Google Maps API key not configured. Set
-				NEXT_PUBLIC_GOOGLE_MAPS_API_KEY in .env.
+				Google Maps API key not configured. Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+				in .env.
 			</p>
 		)
 	}
@@ -46,9 +46,7 @@ export default function LocationPicker() {
 						setAddress(p.address)
 					}}
 				/>
-				{address && (
-					<p className="text-sm text-neutral-600">{address}</p>
-				)}
+				{address && <p className="text-sm text-neutral-600">{address}</p>}
 
 				<div className="h-72 w-full overflow-hidden rounded-md border">
 					<Map
@@ -94,16 +92,8 @@ export default function LocationPicker() {
 					)}
 				</div>
 
-				<input
-					type="hidden"
-					name="latitude"
-					value={position?.lat ?? ''}
-				/>
-				<input
-					type="hidden"
-					name="longitude"
-					value={position?.lng ?? ''}
-				/>
+				<input type="hidden" name="latitude" value={position?.lat ?? ''} />
+				<input type="hidden" name="longitude" value={position?.lng ?? ''} />
 				<input type="hidden" name="address" value={address} />
 			</div>
 		</APIProvider>
@@ -206,7 +196,7 @@ function ReverseGeocoder({
 		const geocoder = new geocoding.Geocoder()
 		geocoder
 			.geocode({ location: position })
-			.then((res) => {
+			.then((res: any) => {
 				const formatted = res.results[0]?.formatted_address
 				if (formatted) onAddress(formatted)
 			})
