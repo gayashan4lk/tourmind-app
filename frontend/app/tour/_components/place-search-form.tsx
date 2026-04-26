@@ -93,10 +93,6 @@ export function PlaceSearchForm({
 				className="flex h-12 w-full items-center rounded-full bg-neutral-200 px-6 text-base font-semibold text-neutral-700"
 			>
 				<span className="flex-1">Filter by tag</span>
-				<span
-					aria-hidden="true"
-					className="bg-brand-red ml-auto size-7 rounded-full"
-				/>
 			</div>
 		</div>
 	)
