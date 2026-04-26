@@ -34,23 +34,25 @@ export default async function MyToursPage() {
       ) : (
         <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {tours.map((tour) => (
-            <li
-              key={tour.id}
-              className="flex flex-col gap-2 rounded-2xl bg-neutral-100 p-6"
-            >
-              <h2 className="text-lg font-semibold">{tour.title}</h2>
-              {tour.description ? (
-                <p className="line-clamp-3 text-sm text-neutral-600">
-                  {tour.description}
-                </p>
-              ) : null}
-              <div className="mt-auto flex items-center justify-between pt-4 text-xs text-neutral-500">
-                <span>
-                  {tour._count.items}{" "}
-                  {tour._count.items === 1 ? "place" : "places"}
-                </span>
-                <span>{dateFormatter.format(tour.createdAt)}</span>
-              </div>
+            <li key={tour.id}>
+              <Link
+                href={`/tour/my-tours/${tour.id}`}
+                className="flex h-full flex-col gap-2 rounded-2xl bg-neutral-100 p-6 transition-colors hover:bg-neutral-200"
+              >
+                <h2 className="text-lg font-semibold">{tour.title}</h2>
+                {tour.description ? (
+                  <p className="line-clamp-3 text-sm text-neutral-600">
+                    {tour.description}
+                  </p>
+                ) : null}
+                <div className="mt-auto flex items-center justify-between pt-4 text-xs text-neutral-500">
+                  <span>
+                    {tour._count.items}{" "}
+                    {tour._count.items === 1 ? "place" : "places"}
+                  </span>
+                  <span>{dateFormatter.format(tour.createdAt)}</span>
+                </div>
+              </Link>
             </li>
           ))}
         </ul>

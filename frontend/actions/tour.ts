@@ -97,6 +97,57 @@ export async function createTour(
 	return { success: true, message: 'Tour created', tourId }
 }
 
+export async function getMyTour(id: string) {
+	const session = await auth.api.getSession({ headers: await headers() })
+
+	if (!session || session.user.role !== 'tourist') {
+		return null
+	}
+
+	const tour = await prisma.tour.findUnique({
+		where: { id },
+		select: {
+			id: true,
+			title: true,
+			description: true,
+			createdAt: true,
+			userId: true,
+			items: {
+				orderBy: { position: 'asc' },
+				select: {
+					id: true,
+					position: true,
+					place: {
+						select: {
+							id: true,
+							name: true,
+							shortDescription: true,
+							fullDescription: true,
+							openingHours: true,
+							entryFee: true,
+							travelTips: true,
+							dressCode: true,
+							isActive: true,
+							category: { select: { name: true } },
+							images: {
+								where: { isPrimary: true },
+								take: 1,
+								select: { url: true },
+							},
+						},
+					},
+				},
+			},
+		},
+	})
+
+	if (!tour || tour.userId !== session.user.id) {
+		return null
+	}
+
+	return tour
+}
+
 export async function getMyTours() {
 	const session = await auth.api.getSession({ headers: await headers() })
 
