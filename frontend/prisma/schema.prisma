@@ -109,6 +109,9 @@ model Place {
   entryFee         String
   travelTips       String?   @db.Text
   dressCode        String?   @db.Text
+  latitude         Float?
+  longitude        Float?
+  address          String?   @db.Text
   isActive         Boolean   @default(true)
   images           Image[]
   tourItems        TourItem[]

@@ -2,6 +2,7 @@
 
 import { createPlace } from '@/actions/place'
 import { getPlaceImageUploadUrl, savePlaceImage } from '@/actions/image'
+import LocationPicker from './_components/location-picker'
 import { Button } from '@/components/ui/button'
 import {
 	Field,
@@ -221,6 +222,24 @@ export default function CreatePlaceForm({
 							</SelectContent>
 						</Select>
 						{state.error?.fieldErrors.categoryId?.map((error) => (
+							<FieldError key={error}>{error}</FieldError>
+						))}
+					</Field>
+
+					<Field>
+						<FieldLabel>Location</FieldLabel>
+						<LocationPicker />
+						<FieldDescription>
+							Optional. Search for a place or drag the pin to set the
+							location.
+						</FieldDescription>
+						{state.error?.fieldErrors.latitude?.map((error) => (
+							<FieldError key={error}>{error}</FieldError>
+						))}
+						{state.error?.fieldErrors.longitude?.map((error) => (
+							<FieldError key={error}>{error}</FieldError>
+						))}
+						{state.error?.fieldErrors.address?.map((error) => (
 							<FieldError key={error}>{error}</FieldError>
 						))}
 					</Field>
