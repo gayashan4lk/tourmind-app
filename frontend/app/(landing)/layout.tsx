@@ -1,7 +1,7 @@
 export default function LandingLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode
+  children: React.ReactNode;
 }) {
-	return <main className="flex-1">{children}</main>
+  return <main className="flex-1">{children}</main>;
 }
