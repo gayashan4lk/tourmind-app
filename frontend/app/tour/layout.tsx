@@ -1,19 +1,10 @@
-import Link from 'next/link'
-import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
-import { forbidden, redirect } from 'next/navigation'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { signOut } from '@/actions/auth'
-import { HostNav } from '@/app/host/_components/host-nav'
+import Link from 'next/link'
+import { forbidden } from 'next/navigation'
 import UserAvatar from '@/app/host/_components/user-avatar'
+import { TouristNav } from '@/app/tour/_components/tourist-nav'
+import { Button } from '@/components/ui/button'
+import { auth } from '@/lib/auth'
 
 export default async function TourLayout({
 	children,
@@ -26,7 +17,7 @@ export default async function TourLayout({
 		forbidden()
 	}
 
-	const { user, session: userSession } = session
+	const { user } = session
 
 	return (
 		<div className="flex flex-col">
@@ -34,14 +25,16 @@ export default async function TourLayout({
 				<div className="mx-auto flex h-25 w-full max-w-7xl items-center justify-between px-8">
 					<div className="flex items-center gap-14">
 						<Link
-							href="/host"
+							href="/tour"
 							className="text-brand-red text-3xl font-black tracking-tight"
 						>
 							TourMind
 						</Link>
-						<HostNav />
+						<TouristNav />
 					</div>
-					<UserAvatar user={user} />
+					<div className="flex items-center gap-4">
+						<UserAvatar user={user} />
+					</div>
 				</div>
 			</header>
 			{children}
