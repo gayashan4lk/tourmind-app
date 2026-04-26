@@ -21,12 +21,14 @@ type PlaceSearchFormProps = {
 	q: string
 	categoryId: string
 	categories: Category[]
+	basePath?: string
 }
 
 export function PlaceSearchForm({
 	q,
 	categoryId,
 	categories,
+	basePath = '/tour',
 }: PlaceSearchFormProps) {
 	const router = useRouter()
 	const [query, setQuery] = useState(q)
@@ -39,7 +41,7 @@ export function PlaceSearchForm({
 			params.set('categoryId', nextCategory)
 		}
 		const qs = params.toString()
-		router.push(qs ? `/tour?${qs}` : '/tour')
+		router.push(qs ? `${basePath}?${qs}` : basePath)
 	}
 
 	return (

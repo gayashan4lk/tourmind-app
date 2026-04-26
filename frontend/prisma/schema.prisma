@@ -30,6 +30,7 @@ model User {
   accounts      Account[]
   categories    Category[]
   places        Place[]
+  tours         Tour[]
 
 
 
@@ -110,6 +111,7 @@ model Place {
   dressCode        String?   @db.Text
   isActive         Boolean   @default(true)
   images           Image[]
+  tourItems        TourItem[]
   categoryId       String?
   category         Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   userId           String
@@ -134,4 +136,32 @@ model Image {
 
   @@index([placeId])
   @@map("image")
+}
+
+model Tour {
+  id          String     @id @default(cuid())
+  title       String
+  description String?    @db.Text
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items       TourItem[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([userId])
+  @@map("tour")
+}
+
+model TourItem {
+  id       String @id @default(cuid())
+  tourId   String
+  tour     Tour   @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  placeId  String
+  place    Place  @relation(fields: [placeId], references: [id], onDelete: Restrict)
+  position Int
+
+  @@unique([tourId, position])
+  @@index([tourId])
+  @@index([placeId])
+  @@map("tour_item")
 }

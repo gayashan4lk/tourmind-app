@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
 
 type PlaceCardProps = {
@@ -5,6 +6,7 @@ type PlaceCardProps = {
   shortDescription: string;
   categoryName?: string | null;
   imageUrl?: string | null;
+  action?: ReactNode;
 };
 
 export function PlaceCard({
@@ -12,6 +14,7 @@ export function PlaceCard({
   shortDescription,
   categoryName,
   imageUrl,
+  action,
 }: PlaceCardProps) {
   return (
     <li className="flex flex-col gap-3">
@@ -33,6 +36,7 @@ export function PlaceCard({
           <p className="text-neutral-400">{categoryName}</p>
         ) : null}
       </div>
+      {action ? <div className="mt-1">{action}</div> : null}
     </li>
   );
 }
