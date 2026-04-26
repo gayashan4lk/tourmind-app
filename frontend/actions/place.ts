@@ -125,7 +125,19 @@ export async function deletePlace(
       typeof error === "object" && error !== null && "code" in error
         ? (error as { code: string }).code
         : null;
-    if (code !== "P2025") {
+    if (code === "P2025") {
+      // already gone — fall through to S3 cleanup + revalidate
+    } else if (code === "P2003") {
+      const tourItemCount = await prisma.tourItem.count({
+        where: { placeId },
+      });
+      return {
+        success: false,
+        message: `This place is used in ${tourItemCount} tour ${
+          tourItemCount === 1 ? "stop" : "stops"
+        }. Remove it from those tours before deleting.`,
+      };
+    } else {
       console.error("Failed to delete place", error);
       return { success: false, message: "Failed to delete place" };
     }
