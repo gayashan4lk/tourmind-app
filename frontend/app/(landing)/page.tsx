@@ -65,6 +65,7 @@ export default async function LandingPage({
 								shortDescription={place.shortDescription}
 								categoryName={place.category?.name ?? null}
 								imageUrl={place.images[0]?.url ?? null}
+								basePath={`/places/${place.id}`}
 							/>
 						))}
 					</ul>
