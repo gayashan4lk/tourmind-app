@@ -1,17 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getTouristPlaces } from "@/actions/place";
+import { getTouristCategories, getTouristPlaces } from "@/actions/place";
 import { Button } from "@/components/ui/button";
 import HomeSearchBar from "./_components/home-search-bar";
 
 export default async function LandingPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; categoryId?: string }>;
 }) {
-  const { q } = await searchParams;
+  const { q, categoryId } = await searchParams;
   const query = q?.trim() || undefined;
-  const places = await getTouristPlaces({ q: query });
+  const activeCategoryId = categoryId?.trim() || undefined;
+  const [places, categories] = await Promise.all([
+    getTouristPlaces({ q: query, categoryId: activeCategoryId }),
+    getTouristCategories(),
+  ]);
 
   return (
     <div className="flex flex-col">
@@ -39,7 +43,11 @@ export default async function LandingPage({
           </div>
         </div>
 
-        <HomeSearchBar defaultQuery={query} />
+        <HomeSearchBar
+          defaultQuery={query}
+          categoryId={activeCategoryId}
+          categories={categories}
+        />
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-8 py-10">
