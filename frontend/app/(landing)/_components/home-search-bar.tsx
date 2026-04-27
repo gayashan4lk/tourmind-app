@@ -69,7 +69,7 @@ export default function HomeSearchBar({
 				}}
 				disabled={noCategories}
 			>
-				<SelectTrigger className="h-14! w-60 rounded-full border-0 bg-transparent px-6 text-lg text-neutral-700 shadow-none focus-visible:ring-0 data-[placeholder]:text-[#b3b3b3]">
+				<SelectTrigger className="h-14! w-60 rounded-full border-0 bg-transparent px-6 text-lg text-neutral-700 shadow-none focus-visible:ring-0 data-placeholder:text-[#b3b3b3]">
 					<SelectValue placeholder="Category" />
 				</SelectTrigger>
 				<SelectContent>
