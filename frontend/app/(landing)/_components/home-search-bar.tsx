@@ -31,15 +31,20 @@ export default function HomeSearchBar({
 	const [category, setCategory] = useState(categoryId || ALL_CATEGORIES)
 	const noCategories = categories.length === 0
 
-	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-		event.preventDefault()
+	function pushParams(nextQuery: string, nextCategory: string) {
 		const params = new URLSearchParams()
-		if (query.trim()) params.set('q', query.trim())
-		if (category && category !== ALL_CATEGORIES) {
-			params.set('categoryId', category)
+		const trimmed = nextQuery.trim()
+		if (trimmed) params.set('q', trimmed)
+		if (nextCategory && nextCategory !== ALL_CATEGORIES) {
+			params.set('categoryId', nextCategory)
 		}
 		const qs = params.toString()
 		router.push(qs ? `/?${qs}` : '/')
+	}
+
+	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+		event.preventDefault()
+		pushParams(query, category)
 	}
 
 	return (
@@ -58,7 +63,10 @@ export default function HomeSearchBar({
 			<Separator orientation="vertical" className="bg-border my-2 border" />
 			<Select
 				value={category}
-				onValueChange={setCategory}
+				onValueChange={(next) => {
+					setCategory(next)
+					pushParams(query, next)
+				}}
 				disabled={noCategories}
 			>
 				<SelectTrigger className="h-14! w-60 rounded-full border-0 bg-transparent px-6 text-lg text-neutral-700 shadow-none focus-visible:ring-0 data-[placeholder]:text-[#b3b3b3]">

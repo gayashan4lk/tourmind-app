@@ -29,7 +29,9 @@ export default async function TourPage({
       <PlaceSearchForm q={q} categoryId={categoryId} categories={categories} />
 
       {places.length === 0 ? (
-        <p className="mt-16 text-center text-neutral-500">No places found.</p>
+        <p className="mt-16 text-center text-neutral-500">
+          {q ? `No places found for "${q}".` : "No places yet."}
+        </p>
       ) : (
         <ul className="mt-10 grid grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           {places.map((place) => (
