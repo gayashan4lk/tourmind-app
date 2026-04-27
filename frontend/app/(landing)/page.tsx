@@ -12,6 +12,7 @@ export default async function LandingPage({
 	const { q, categoryId } = await searchParams
 	const query = q?.trim() || undefined
 	const activeCategoryId = categoryId?.trim() || undefined
+
 	const [places, categories] = await Promise.all([
 		getTouristPlaces({ q: query, categoryId: activeCategoryId }),
 		getTouristCategories(),
