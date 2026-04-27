@@ -50,7 +50,7 @@ export default function HomeSearchBar({
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="mx-auto mt-16 flex w-full max-w-196 items-center rounded-full bg-white px-2 shadow-sm"
+			className="mx-auto mt-4 mb-16 flex w-full max-w-196 items-center rounded-full bg-white px-2 shadow-sm"
 		>
 			<input
 				type="search"
