@@ -116,6 +116,7 @@ export function CreateTourForm({
 										<Plus className="size-4" /> Add to tour
 									</Button>
 								}
+								basePath={`places/${place.id}`}
 							/>
 						))}
 					</ul>
