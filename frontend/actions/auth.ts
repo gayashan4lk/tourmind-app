@@ -37,7 +37,7 @@ export async function signUp(prevState: any, formData: FormData) {
 
 	return {
 		success: true,
-		message: 'all good',
+		message: 'success',
 	}
 }
 
@@ -72,7 +72,7 @@ export async function signIn(prevState: any, formData: FormData) {
 
 	return {
 		success: true,
-		message: 'all good',
+		message: 'success',
 	}
 }
 
@@ -94,7 +94,7 @@ export async function signOut() {
 
 	return {
 		success: true,
-		message: 'all good',
+		message: 'success',
 	}
 }
 
