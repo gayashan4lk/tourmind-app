@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 const navItems = [
 	{ label: 'Places', href: '/host/places' },
 	{ label: 'Categories', href: '/host/categories' },
-	{ label: 'Tags', href: '/host/tags' },
+	// { label: 'Tags', href: '/host/tags' },
 ]
 
 export function HostNav() {
